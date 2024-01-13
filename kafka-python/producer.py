@@ -4,7 +4,7 @@ from kafka import KafkaProducer
 
 def send_message(key:str, message:dict):
     # Kafka broker address
-    bootstrap_servers = '192.168.18.208:9092'
+    bootstrap_servers = 'localhost:9092'
 
     # Kafka topic to produce messages to
     topic = 'coordinates'
