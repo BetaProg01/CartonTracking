@@ -5,7 +5,7 @@ from kafka import KafkaConsumer
 bootstrap_servers = 'localhost:9092'
 
 # Kafka topic to consume messages from
-topic = 'test'
+topic = 'coordinates'
 
 # Create a Kafka consumer instance
 consumer = KafkaConsumer(
