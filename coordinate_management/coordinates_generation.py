@@ -5,8 +5,8 @@ from datetime import datetime, timedelta
 
 
 # Set constants
-PIXEL_PER_HOUR = 8
-ANGLE_ADJUSTMENT = 25  #degre
+PIXEL_PER_HOUR = 16
+ANGLE_ADJUSTMENT = 20  #degre
 
 # Load the map
 map_annoted = np.load("walkability_array.npy")
@@ -62,18 +62,24 @@ def generate_initial_vector(x_pos, y_pos):
     
     return new_x, new_y, angle_deg
 
+# Next vectors generation
+def generate_new_vector(x_pos, y_pos, angle_deg, max_attempts=20):
+    angle_step = ANGLE_ADJUSTMENT
+    # Try to find a valid move by trying different angles
+    # If we fail more than 'max_attemps' times, we try again with a wider angle range until we reach 360
+    for angle_offset in range(0, 360, angle_step):
+        for _ in range(max_attempts):
+            new_angle = (angle_deg + angle_offset) % 360
+            new_x, new_y = move(x_pos, y_pos, new_angle)
+            if x_in_boundaries(new_x) and y_in_boundaries(new_y) and map_annoted[new_y][new_x]:
+                return new_x, new_y, new_angle
 
-# Next vector generated
-def generate_new_vector(x_pos, y_pos, angle_deg):
-    move_possible = False
+    # If we reach here, we failed to find a valid move after trying all angles
+    # Generate a completely random value
+    return rd.randint(0, map_width-1), rd.randint(0, map_height-1), rd.randint(0, 360)
     
-    while not move_possible :
-        angle_variation = np.random.uniform(-ANGLE_ADJUSTMENT, ANGLE_ADJUSTMENT)
-        new_angle = angle_deg + angle_variation 
-        new_x, new_y = move(x_pos, y_pos, new_angle)
-        move_possible = x_in_boundaries(new_x) and y_in_boundaries(y_pos) and map_annoted[new_y][new_x]
     
-    return new_x, new_y, new_angle
+    
     
 
             
