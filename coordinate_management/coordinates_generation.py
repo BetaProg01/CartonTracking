@@ -6,7 +6,7 @@ from datetime import datetime, timedelta
 
 # Set constants
 PIXEL_PER_HOUR = 16
-ANGLE_ADJUSTMENT = 20  #degre
+ANGLE_ADJUSTMENT = 40  #degre
 
 # Load the map
 map_annoted = np.load("walkability_array.npy")
