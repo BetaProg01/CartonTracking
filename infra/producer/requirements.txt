@@ -1,3 +1,9 @@
 kafka-python
-Pillow
+pillow
+json
+time
+datetime
 numpy
+random
+matplotlib
+ipaddress
