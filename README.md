@@ -16,7 +16,7 @@ Chaque machine va appliquer une fonction de déplacement aléatoire mais contrô
 
 1. Spawn de manière aléatoire sur la carte
 1. Commence à se déplacer sur la carte
-1. Chaque déplacement dépends du précédent (on prends en compte l'angle de déplacement pour éviter des angles trop erratiques)
+1. Chaque déplacement dépend du précédent (on prend en compte l'angle de déplacement pour éviter des angles trop erratiques)
 
 
 
