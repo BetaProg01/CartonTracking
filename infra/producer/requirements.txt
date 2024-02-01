@@ -1,0 +1,9 @@
+kafka-python
+pillow
+json
+time
+datetime
+numpy
+random
+matplotlib
+ipaddress
