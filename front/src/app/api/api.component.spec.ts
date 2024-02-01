@@ -6,12 +6,10 @@ describe('ApiComponent', () => {
   let component: ApiComponent;
   let fixture: ComponentFixture<ApiComponent>;
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [ApiComponent]
-    })
-    .compileComponents();
-    
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      declarations: [ApiComponent]
+    });
     fixture = TestBed.createComponent(ApiComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

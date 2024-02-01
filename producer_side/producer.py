@@ -3,19 +3,19 @@ from time import sleep
 from kafka import KafkaProducer
 import numpy as np
 import matplotlib.pyplot as plt
-import ipaddress
+import os
 
 from coordinates_generation import init_pos, first_move, make_a_move
 
-def send_messages(IP:str="localhost", producerNumber:int=1):
+def send_messages(addr:str, producerNumber:int, pause_time:int, num_messages:int):
     # Kafka broker address
-    bootstrap_servers = [IP + ':9092']
+    bootstrap_servers = [addr + ':9092']
     
     # Pause time between messages
-    pause_time = 0.05
+    pause_time = 1
     
     # Number of messages to send
-    num_messages = 100
+    num_messages = 60
 
     # Kafka topic to produce messages to
     topic = 'coordinates'
@@ -49,7 +49,7 @@ def send_messages(IP:str="localhost", producerNumber:int=1):
             sleep(pause_time)
         except:
             print("Problem with the move")
-            break
+            return messages
     
     # Message to indicate the end of the stream
     message = dict(date="end", x_pos=-10000, y_pos=-10000)
@@ -78,33 +78,13 @@ def view_map(messages:dict):
     plt.imshow(map_annoted)
     plt.show()
 
-# To validate the IP address
-def validate_ip(ip):
-    if ip == '' or ip == 'localhost':
-        return True
-    try:
-        ipaddress.ip_address(ip)
-        return True
-    except ValueError:
-        return False
-
-# To validate the producer number
-def validate_producer_number(number):
-    if number == '':
-        return True
-    return number.isdigit() and 1 <= int(number) <= 100  # Assuming producer number should be between 1 and 100
-
 if __name__ == "__main__":
-    IP = input("Enter IP address of the kafka host (default is localhost) : ")
-    while not validate_ip(IP):
-        print("Invalid IP address. Please try again.")
-        IP = input("Enter IP address of the kafka host (default is localhost) : ")
+    IP = os.environ['brokerIP']
+    producerNumber = os.environ['producerNumber']
+    num_messages = os.environ['iterations']
+    pause_time = os.environ['iterationGap']
 
-    producerNumber = input("Enter producer number (default is 1) : ")
-    while not validate_producer_number(producerNumber):
-        print("Invalid producer number. Please try again.")
-        producerNumber = input("Enter producer number (default is 1) : ")
-
-    messages = send_messages(IP if IP != '' else 'localhost', int(producerNumber) if producerNumber != '' else 1)
+    messages = send_messages(IP if IP != '' else 'localhost', int(producerNumber) if producerNumber != '' else 1, 
+                             int(pause_time) if pause_time != '' else 1, int(num_messages) if num_messages != '' else 60)
     
     #view_map(messages) # To view the map with the points just produced

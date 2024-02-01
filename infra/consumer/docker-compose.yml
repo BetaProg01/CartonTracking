@@ -4,9 +4,23 @@ services:
   python:
     build:
       context: .
-      dockerfile: Dockerfile
-    container_name: python
-    command: python3 consumer.py
+      dockerfile: pythonDockerfile
+    container_name: pythonConsumer
+    command: uvicorn api:app
     volumes:
-      - ../../kafka-python:/app
+      - ../../consumer_side:/app
+    environment:
+      - brokerIP=${BROKER_IP:-localhost} # use the BROKER_IP environment variable, or 'localhost' if it's not set
     network_mode: host
+
+  frontend:
+    build:
+      context: .
+      dockerfile: angularDockerfile
+    container_name: frontend
+    command: ng serve
+    volumes:
+      - ../../front:/app
+    network_mode: host
+    depends_on:
+      - python

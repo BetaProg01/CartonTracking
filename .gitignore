@@ -6,6 +6,22 @@ __pycache__/
 # C extensions
 *.so
 
+# Angular
+/dist
+/tmp
+/out-tsc
+/bazel-out
+/front/node_modules
+/front/.angular/cache/*
+
+# Node
+/node_modules
+npm-debug.log
+yarn-error.log
+yarn-debug.log*
+
+
+
 # Distribution / packaging
 .Python
 build/

@@ -5,8 +5,13 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: python
-    command: python3 producer.py
+    container_name: producer
+    command: python3 producer.py 
     volumes:
-      - ../../kafka-python:/app
+      - ../../producer_side:/app
+    environment:
+      - producerNumber=${PRODUCER_NUMBER:-1} # use the PRODUCER_NUMBER environment variable, or '1' if empty (frontend only supports 1 and 2)
+      - brokerIP=${BROKER_IP:-localhost} # use the BROKER_IP environment variable, or 'localhost' if it's not set
+      - iterations=${ITERATIONS:-60} # ... number of points produced per launch
+      - iterationGap=${ITERATION_GAP:-1} # ... time between production of points in seconds
     network_mode: host
