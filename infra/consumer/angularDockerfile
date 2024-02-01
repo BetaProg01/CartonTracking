@@ -1,0 +1,6 @@
+# Last LTS version of node
+FROM node:20.9.0
+# Install angular cli
+RUN apt update && npm install -g @angular/cli
+# Set working directory in advance
+WORKDIR /app
